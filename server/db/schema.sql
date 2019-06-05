@@ -1,4 +1,4 @@
-CREATE TABLE Restaurant
+CREATE TABLE Restaurants
 (
   id INT PRIMARY KEY,
   name TEXT,
@@ -12,18 +12,17 @@ CREATE TABLE Restaurant
   CREATE TABLE Menu
   (
     id INT PRIMARY KEY,
-    menu_type TEXT,
-    sub_menu TEXT,
-    dish_name TEXT,
-    dish_info TEXT,
-    price INT,
-    res_id INT REFERENCES Restaurant(id),
+    type TEXT,
     join_id INT
   );
 
-  CREATE TABLE Restaurant_Menu
+  CREATE TABLE Dishes
   (
     id INT PRIMARY KEY,
-    restaurant_id INT REFERENCES Restaurant(id),
-    menu_id INT REFERENCES Menu(id)
+    res_id INT REFERENCES Restaurant(id),
+    menu_id INT REFERENCES Menu(id),
+    dish_name TEXT,
+    dish_info TEXT,
+    price INT,
+    subMenu_type TEXT
   );

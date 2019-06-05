@@ -13,7 +13,7 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, '../client/dist'))); // this line becomes useless as we serve the template 
+app.use(express.static(path.join(__dirname, '../client/dist'))); // this line becomes useless as we serve the template
 
 
 
