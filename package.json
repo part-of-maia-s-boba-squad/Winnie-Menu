@@ -12,7 +12,7 @@
     "test": "jest",
     "start": "node server/index.js",
     "seed": "node server/dataGenerator/save2mongoose.js",
-    "dataGen": "node server/db/dataGeneration.js —-max-old-space-size=8192"
+    "psqlDataGen": "node server/db/psqlDataGen.js —-max-old-space-size=8192"
   },
   "dependencies": {
     "babel-core": "^6.26.3",
