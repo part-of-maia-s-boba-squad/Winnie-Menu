@@ -24,7 +24,8 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
 ## Development
 
-Seeding Database
+Seeding Database:
+  -  `npm run dataGen`
 
 API CRUD:
 

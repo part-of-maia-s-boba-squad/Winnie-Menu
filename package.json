@@ -11,7 +11,8 @@
     "react-dev": "webpack -d --watch",
     "test": "jest",
     "start": "node server/index.js",
-    "seed": "node server/dataGenerator/save2mongoose.js"
+    "seed": "node server/dataGenerator/save2mongoose.js",
+    "dataGen": "node server/db/dataGeneration.js —-max-old-space-size=8192"
   },
   "dependencies": {
     "babel-core": "^6.26.3",

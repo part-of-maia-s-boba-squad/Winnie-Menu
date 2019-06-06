@@ -10,18 +10,35 @@ const topTags = ['Good For A Date', 'Special Occasion', 'Authentic', 'Most Festi
 
 const cuisines = ['Chinese', 'Mexican', 'Italian', 'Mediterranean', 'Japanese', 'Korean', 'Fast Food', 'French', 'Indian'];
 
-const dataGen = () => {
-  writer.pipe(fs.createWriteStream('data.csv'));
-  for (var i = 1; i <= 10000; i++) {
-    writer.write({
+const resNameArr = [];
+for (var i = 0; i < 1000; i++) {
+  resNameArr.push(faker.company.companyName());
+}
+
+const resInfoArr = [];
+for (var i = 0; i < 1000; i++) {
+  resInfoArr.push(faker.lorem.paragraphs());
+}
+
+const dataGen = async (limit) => {
+  writer.pipe(fs.createWriteStream('pslResData.csv'));
+  for (var i = 1; i <= limit; i++) {
+    const ableToWrite = writer.write({
       id: i,
-      res_name: faker.company.companyName(),
+      res_name: resNameArr[Math.floor(Math.random() * resNameArr.length)],
       top_tags: topTags.filter((tag) => Math.random() < 0.13),
       cuisine: cuisines[Math.floor(Math.random() * cuisines.length)],
       review_count: Math.floor(Math.random() * 600),
-      res_info: faker.lorem.paragraphs()
+      res_info: resInfoArr[Math.floor(Math.random() * resInfoArr.length)]
     });
+
+    if (!ableToWrite) {
+      await new Promise(resolve => {
+        writer.once('drain', resolve);
+      });
+    }
   }
+  writer.end();
 };
 
-dataGen();
+dataGen(10000000);
