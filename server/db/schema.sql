@@ -18,7 +18,7 @@ CREATE TABLE Dishes (
   menu_id INT,
   dish_name TEXT,
   dish_info TEXT,
-  price INT,
+  price TEXT,
   subMenu_type TEXT,
   FOREIGN KEY (res_id) REFERENCES Restaurants(id),
   FOREIGN KEY (menu_id) REFERENCES Menu(id)
