@@ -25,7 +25,8 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 ## Development
 
 Seeding Database:
-  -  `npm run dataGen`
+  - For PostGres: `npm run psqlDataGen`
+  - For Cassandra: `npm run casDataGen`
 
 API CRUD:
 
