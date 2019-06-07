@@ -26,4 +26,7 @@ build/
 psqlResData.csv
 psqlMenuData.csv
 psqlDishesData.csv
+psqlDishesData.csv.zip
+psqlResData.csv.zip
+
 server/db/psqlSeed.js

@@ -3,7 +3,7 @@ CREATE TABLE Restaurants (
   res_name TEXT,
   top_tags TEXT,
   cuisine TEXT,
-  review_count INT,
+  review_count TEXT,
   res_info TEXT
 );
 

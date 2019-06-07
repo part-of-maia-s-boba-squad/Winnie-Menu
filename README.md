@@ -52,13 +52,32 @@ Seeding Database:
         ```
 
   - For Cassandra: `npm run casDataGen`
+    1. Start Cassandra in terminal: `cqlsh`
+    2. If keyspace restaurant_menu exists: `DROP KEYSPACE restaurant_menu`
+    3. Run the following commands:
+        ```sh
+        CREATE KEYSPACE restaurant_menu WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+
+        USE restaurant_menu;
+
+        CREATE TABLE Restaurants (
+          id INT,
+          res_name TEXT,
+          top_tags TEXT,
+          cuisine TEXT,
+          review_count TEXT,
+          menus SET<FROZEN <SET <SET <SET <TEXT>>>>>,
+          PRIMARY KEY ((res_name), id)
+        );
+        ```
+    4. 
 
 API CRUD:
 
 | Endpoints            | Type   | Input                                | Output                               | Description                   |
 | -------------------- |------| ------------------------------------| ------------------------------------| -----------------------------|
-| /API/restaurant/:id  | GET    | restaurant id                        | document of menu and restaurant info | Gets restaurant info and menu |
-| /API/restaurant/     | POST   | document of menu and restaurant info | status code: 201                     | Create a restaurant document  |
+| /API/restaurant/:id  | GET    | restaurant id                        | object of menu and restaurant info; status code: 200 | Gets restaurant info and menu |
+| /API/restaurant/     | POST   | object of menu and restaurant info | status code: 201                     | Create a restaurant document  |
 | /API/restaurant/:id  | PUT    | restaurant id                        | status code: 200                     | Update a restaurant document  |
 | /API/restaurant/:id  | DELETE | restaurant id                        | status code: 200                     | Delete a restaurant document  |
 
