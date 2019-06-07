@@ -25,7 +25,32 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 ## Development
 
 Seeding Database:
-  - For PostGres: `npm run psqlDataGen`
+  - For Postgres: `npm run psqlDataGen`
+    1. Start Postgres: `brew services start postgres`
+    3. If database restaurant_menu exists: `dropdb restaurant_menu`
+    2. Run the following commands:
+        ```sh
+        createdb restaurant_menu
+        $ psql restaurant_menu
+        ```
+    3. Run the schema file: `restaurant_menu=# \i server/db/schema.sql`
+    4. Check out tables: `restaurant_menu=# \dt`
+    5. Run seed:
+        ```sh
+        \COPY Menu (id, type) FROM 'psqlMenuData.csv' DELIMITER ',' CSV HEADER;
+
+        \COPY Restaurants (id, res_name, top_tags, cuisine, review_count, res_info) FROM 'psqlResData.csv' DELIMITER ',' CSV HEADER;
+
+        \COPY Dishes (id, res_id, menu_id, dish_name, dish_info, price, subMenu_type) FROM 'psqlDishesData.csv' DELIMITER ',' CSV HEADER;
+        ```
+    6. Check tables if seeded successfully:
+        ```sh
+        $ psql restaurant_menu
+        restaurant_menu=# select * from Restaurants;
+        restaurant_menu=# select * from Menu;
+        restaurant_menu=# select * from Dishes;
+        ```
+
   - For Cassandra: `npm run casDataGen`
 
 API CRUD:

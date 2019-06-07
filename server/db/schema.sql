@@ -1,25 +1,25 @@
 CREATE TABLE Restaurants (
   id INT PRIMARY KEY,
-  name TEXT,
-  top_tags TEXT[],
+  res_name TEXT,
+  top_tags TEXT,
   cuisine TEXT,
   review_count INT,
-  res_info TEXT,
-  join_id INT
+  res_info TEXT
 );
 
 CREATE TABLE Menu (
   id INT PRIMARY KEY,
-  type TEXT,
-  join_id INT
+  type TEXT
 );
 
 CREATE TABLE Dishes (
   id INT PRIMARY KEY,
-  res_id INT REFERENCES Restaurant(id),
-  menu_id INT REFERENCES Menu(id),
+  res_id INT,
+  menu_id INT,
   dish_name TEXT,
   dish_info TEXT,
   price INT,
-  subMenu_type TEXT
+  subMenu_type TEXT,
+  FOREIGN KEY (res_id) REFERENCES Restaurants(id),
+  FOREIGN KEY (menu_id) REFERENCES Menu(id)
 );

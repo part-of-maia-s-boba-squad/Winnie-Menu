@@ -23,7 +23,7 @@ const resData = async (limit) => {
     const ableToWrite = writer.write({
       id: i,
       res_name: resNameArr[Math.floor(Math.random() * resNameArr.length)],
-      top_tags: topTags.filter((tag) => Math.random() < 0.13),
+      top_tags: topTags[Math.floor(Math.random() * topTags.length)],
       cuisine: cuisines[Math.floor(Math.random() * cuisines.length)],
       review_count: Math.floor(Math.random() * 600),
       res_info: resInfoArr[Math.floor(Math.random() * resInfoArr.length)]
