@@ -58,7 +58,10 @@ Seeding Database:
     2. If keyspace restaurant_menu exists: `DROP KEYSPACE restaurant_menu`
     3. Run the following commands:
         ```sh
-        CREATE KEYSPACE restaurant_menu WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'datacenter1' : 1 };
+        CREATE KEYSPACE restaurant_menu WITH REPLICATION = {
+          'class' : 'SimpleStrategy',
+          'replication_factor' : 1
+        };
 
         USE restaurant_menu;
 
@@ -72,7 +75,7 @@ Seeding Database:
           top_tags TEXT
         );
 
-        COPY restaurants (id, cuisine, menus, res_info, res_name, review_count, top_tags) FROM 'cqlshResData.csv' with header=true and delimiter ='|';
+        COPY restaurants (id, cuisine, menus, res_info, res_name, review_count, top_tags) FROM 'cqlshResData.csv' with header=true and delimiter ='|' and MINBATCHSIZE = 1 and MAXBATCHSIZE = 1;
         ```
     4. Check if restaurants table has seeded successfully:
 

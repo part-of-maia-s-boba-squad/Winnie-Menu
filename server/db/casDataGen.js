@@ -58,7 +58,6 @@ const menuGenerator = () => {
 };
 
 const resData = async (limit) => {
-  console.time('dataGen');
   const writer = fs.createWriteStream('cqlshResData.csv');
   let count = 1;
 
@@ -87,7 +86,7 @@ const resData = async (limit) => {
       }
     }
   }
-  writer.end(console.timeEnd('dataGen'));
+  writer.end();
 };
 
 resData(10000000);
@@ -137,4 +136,9 @@ resData(10000000);
 //   price TEXT
 // );
 
-// COPY restaurants (id, cuisine, menus, res_info, res_name, review_count, top_tags) FROM 'cqlshResData.csv' with header=true and delimiter ='|';
+// CREATE KEYSPACE restaurant_menu WITH REPLICATION = {
+//    'class' : 'SimpleStrategy',
+//    'replication_factor' : 1
+//   };
+
+// COPY restaurants (id, cuisine, menus, res_info, res_name, review_count, top_tags) FROM 'cqlshResData.csv' with header=true and delimiter ='|' and MINBATCHSIZE = 1 and MAXBATCHSIZE = 1;
