@@ -8,12 +8,9 @@ const topTags = ['Good For A Date', 'Special Occasion', 'Authentic', 'Most Festi
 const cuisines = ['Chinese', 'Mexican', 'Italian', 'Mediterranean', 'Japanese', 'Korean', 'Fast Food', 'French', 'Indian', 'American', 'Asian Fusion', 'BBQ'];
 
 const resNameArr = [];
+const resInfoArr = [];
 for (let i = 0; i < 1000; i++) {
   resNameArr.push(faker.company.companyName());
-}
-
-const resInfoArr = [];
-for (let j = 0; j < 1000; j++) {
   resInfoArr.push(faker.lorem.paragraphs());
 }
 
@@ -93,12 +90,9 @@ const random = (min, max) => {
 };
 
 const dishesInfoArr = [];
+const dishesName = [];
 for (let k = 0; k < 1000; k++) {
   dishesInfoArr.push(faker.lorem.sentence());
-}
-
-const dishesName = [];
-for (let l = 0; l < 1000; l++) {
   dishesName.push(faker.lorem.words());
 }
 

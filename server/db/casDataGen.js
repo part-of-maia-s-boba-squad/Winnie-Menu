@@ -1,15 +1,27 @@
-// CREATE TABLE Restaurants (
-//   id INT,
+// CREATE TABLE restaurants(
+//   id INT PRIMARY KEY,
 //   res_name TEXT,
 //   top_tags TEXT,
 //   cuisine TEXT,
 //   review_count TEXT,
-//   menus SET<FROZEN <SET <SET <SET <TEXT>>>>>,
-//   PRIMARY KEY ((res_name), id)
+//   res_info TEXT,
+//   menus SET <FROZEN <menu>>
 // );
 
-// menus SET <FROZEN <SET <SET <SET <TEXT>>>>>,
-// PRIMARY KEY ((menus, res_name), id)
+// CREATE TYPE menu(
+//   menu_type SET <FROZEN <dishes>>
+// );
+
+// CREATE TYPE dishes(
+//   dish SET <FROZEN <dish>>
+// );
+
+// CREATE TYPE dish(
+//   id INT,
+//   dish_name TEXT,
+//   dish_info TEXT,
+//   price TEXT
+// );
 
 const fs = require('fs');
 const faker = require('faker');
@@ -29,27 +41,72 @@ const random = (min, max) => {
 };
 
 const resNameArr = [];
+const resInfoArr = [];
+const dishesInfoArr = [];
+const dishesName = [];
 for (let i = 0; i < 1000; i++) {
   resNameArr.push(faker.company.companyName());
-}
-
-const resInfoArr = [];
-for (let j = 0; j < 1000; j++) {
   resInfoArr.push(faker.lorem.paragraphs());
-}
-
-const dishesInfoArr = [];
-for (let k = 0; k < 1000; k++) {
   dishesInfoArr.push(faker.lorem.sentence());
-}
-
-const dishesName = [];
-for (let l = 0; l < 1000; l++) {
   dishesName.push(faker.lorem.words());
 }
 
-const resData = async (limit) => {
-  const writer = csvWriter()
+const dishGenerator = () => {
+  let dish = {};
+  for (let dishes = 0; dishes <= random(1, 5); dishes++) {
+    dish[[dishesName[Math.floor(Math.random() * dishesName.length)]]] = {
+      price: Number(random(5, 50).toFixed(2)),
+      dish_info: dishesInfoArr[Math.floor(Math.random() * dishesInfoArr.length)]
+    };
+  }
 };
 
-resData(5);
+const menuGenerator = () => {
+  let result = {};
+  for (let menuCount = 1; menuCount <= random(1, 4); menuCount++) {
+    let menuType = '';
+    if (menuCount === 1) {
+      menuType = menuTypes[0];
+    } else if (menuCount === 2) {
+      menuType = menuTypes[1];
+    } else if (menuCount === 3) {
+      menuType = menuTypes[2];
+    } else if (menuCount === 4) {
+      menuType = menuTypes[3];
+    }
+
+    result[[menuType]] = {
+      [subMenu[Math.floor(Math.random() * subMenu.length)]]: dishGenerator()
+    }
+  }
+
+  return JSON.stringify(result);
+};
+
+const resData = async (limit) => {
+  const writer = csvWriter();
+  writer.pipe(fs.createWriteStream('cqlshResData.csv'));
+
+  let count = 1;
+
+  for (let i = 1; i <= limit; i++) {
+    const ableToWrite = writer.write({
+      id: count++,
+      res_name: resNameArr[Math.floor(Math.random() * resNameArr.length)],
+      top_tags: topTags[Math.floor(Math.random() * topTags.length)],
+      cuisine: cuisines[Math.floor(Math.random() * cuisines.length)],
+      review_count: Math.floor(Math.random() * 600).toString(),
+      res_info: resInfoArr[Math.floor(Math.random() * resInfoArr.length)],
+      menus: menuGenerator()
+    });
+
+    if (!ableToWrite) {
+      await new Promise(resolve => {
+        writer.once('drain', resolve);
+      });
+    }
+  }
+  writer.end();
+};
+
+// resData(1);

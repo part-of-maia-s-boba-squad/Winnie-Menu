@@ -56,18 +56,33 @@ Seeding Database:
     2. If keyspace restaurant_menu exists: `DROP KEYSPACE restaurant_menu`
     3. Run the following commands:
         ```sh
-        CREATE KEYSPACE restaurant_menu WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+        CREATE KEYSPACE restaurant_menu WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'datacenter1' : 1 };
 
         USE restaurant_menu;
 
-        CREATE TABLE Restaurants (
+        CREATE TYPE dish(
           id INT,
+          dish_name TEXT,
+          dish_info TEXT,
+          price TEXT
+        );
+
+        CREATE TYPE dishes(
+          dish SET <FROZEN <dish>>
+        );
+
+        CREATE TYPE menu(
+          menu_type SET <FROZEN <dishes>>
+        );
+
+        CREATE TABLE restaurants(
+          id INT PRIMARY KEY,
           res_name TEXT,
           top_tags TEXT,
           cuisine TEXT,
           review_count TEXT,
-          menus SET<FROZEN <SET <SET <SET <TEXT>>>>>,
-          PRIMARY KEY ((res_name), id)
+          res_info TEXT,
+          menus SET <FROZEN <menu>>
         );
         ```
     4. 
