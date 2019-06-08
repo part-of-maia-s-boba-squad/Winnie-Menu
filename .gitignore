@@ -30,5 +30,6 @@ psqlDishesData.csv.zip
 psqlResData.csv.zip
 
 cqlshResData.csv
+cqlshResData.csv.zip
 
 server/db/psqlSeed.js

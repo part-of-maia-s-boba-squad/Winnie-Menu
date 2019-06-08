@@ -44,11 +44,13 @@ Seeding Database:
         \COPY Dishes (id, res_id, menu_id, dish_name, dish_info, price, subMenu_type) FROM 'psqlDishesData.csv' DELIMITER ',' CSV HEADER;
         ```
     6. Check tables if seeded successfully:
+
+        Choose an id from 1 - 10 million for restaurants and dishes, id 1 - 4 for menus
         ```sh
         $ psql restaurant_menu
-        restaurant_menu=# select * from Restaurants;
-        restaurant_menu=# select * from Menu;
-        restaurant_menu=# select * from Dishes;
+        restaurant_menu=# select * from Restaurants where id = 1;
+        restaurant_menu=# select * from Menu where id = 1;
+        restaurant_menu=# select * from Dishes where id = 1;
         ```
 
   - For Cassandra: `npm run casDataGen`
@@ -60,34 +62,26 @@ Seeding Database:
 
         USE restaurant_menu;
 
-        CREATE TYPE dish(
-          id INT,
-          dish_name TEXT,
-          dish_info TEXT,
-          price TEXT
-        );
-
-        CREATE TYPE dishes(
-          dish SET <FROZEN <dish>>
-        );
-
-        CREATE TYPE menu(
-          menu_type SET <FROZEN <dishes>>
-        );
-
         CREATE TABLE restaurants(
           id INT PRIMARY KEY,
-          res_name TEXT,
-          top_tags TEXT,
           cuisine TEXT,
-          review_count TEXT,
+          menus TEXT,
           res_info TEXT,
-          menus SET <FROZEN <menu>>
+          res_name TEXT,
+          review_count TEXT,
+          top_tags TEXT
         );
-        ```
-    4. 
 
-API CRUD:
+        COPY restaurants (id, cuisine, menus, res_info, res_name, review_count, top_tags) FROM 'cqlshResData.csv' with header=true and delimiter ='|';
+        ```
+    4. Check if restaurants table has seeded successfully:
+
+        Choose an id from 1 - 10 million
+        ```sh
+        SELECT * FROM restaurants WHERE id = 1;
+        ```
+
+## API CRUD:
 
 | Endpoints            | Type   | Input                                | Output                               | Description                   |
 | -------------------- |------| ------------------------------------| ------------------------------------| -----------------------------|
