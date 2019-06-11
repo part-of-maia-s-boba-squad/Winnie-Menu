@@ -43,6 +43,10 @@ Seeding Database:
 
         \COPY Dishes (id, res_id, menu_id, dish_name, dish_info, price, subMenu_type) FROM 'psqlDishesData.csv' DELIMITER ',' CSV HEADER;
 
+        CREATE INDEX res_id_index ON dishes(res_id);
+
+        CREATE INDEX menu_id_index ON dishes(menu_id);
+
         SELECT MAX(id)+1 FROM restaurants;
         - Change MINVALUE to above output's number
         CREATE SEQUENCE res_id_seq MINVALUE 10000001;
