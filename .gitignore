@@ -23,4 +23,15 @@ coverage
 # Compiled Dirs (http://nodejs.org/api/addons.html)
 build/
 
+psqlResData.csv
+psqlMenuData.csv
+psqlDishesData.csv
+psqlDishesData.csv.zip
+psqlResData.csv.zip
 
+cqlshResData.csv
+cqlshResData.csv.zip
+
+server/db/dbCommands.txt
+server/db/cqlshQueries
+server/db/psqlQueries
