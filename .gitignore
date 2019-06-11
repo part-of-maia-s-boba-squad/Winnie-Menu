@@ -33,3 +33,5 @@ cqlshResData.csv
 cqlshResData.csv.zip
 
 server/db/dbCommands.txt
+server/db/cqlshQueries
+server/db/psqlQueries

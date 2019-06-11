@@ -42,15 +42,36 @@ Seeding Database:
         \COPY Restaurants (id, res_name, top_tags, cuisine, review_count, res_info) FROM 'psqlResData.csv' DELIMITER ',' CSV HEADER;
 
         \COPY Dishes (id, res_id, menu_id, dish_name, dish_info, price, subMenu_type) FROM 'psqlDishesData.csv' DELIMITER ',' CSV HEADER;
+
+        SELECT MAX(id)+1 FROM restaurants;
+        - Change MINVALUE to above output's number
+        CREATE SEQUENCE res_id_seq MINVALUE 10000001;
+        ALTER TABLE restaurants ALTER id SET DEFAULT nextval('res_id_seq');
+        ALTER SEQUENCE res_id_seq OWNED BY restaurants.id;
+
+        SELECT MAX(id)+1 FROM menu;
+        -- Change MINVALUE to above output's number
+        CREATE SEQUENCE menu_id_seq MINVALUE 5;
+        ALTER TABLE menu ALTER id SET DEFAULT nextval('menu_id_seq');
+        ALTER SEQUENCE menu_id_seq OWNED BY menu.id;
+
+        SELECT MAX(id)+1 FROM dishes;
+        -- Change MINVALUE to above output's number
+        CREATE SEQUENCE dishes_id_seq MINVALUE 285160524;
+        ALTER TABLE dishes ALTER id SET DEFAULT nextval('dishes_id_seq');
+        ALTER SEQUENCE dishes_id_seq OWNED BY dishes.id;
+
+        -If Sequence already exists but is off...
+        ALTER SEQUENCE START and RESTART to match max
         ```
     6. Check tables if seeded successfully:
 
         Choose an id from 1 - 10 million for restaurants and dishes, id 1 - 4 for menus
         ```sh
         $ psql restaurant_menu
-        restaurant_menu=# select * from Restaurants where id = 1;
-        restaurant_menu=# select * from Menu where id = 1;
-        restaurant_menu=# select * from Dishes where id = 1;
+        restaurant_menu=# select * from restaurants where id = 1;
+        restaurant_menu=# select * from menu where id = 1;
+        restaurant_menu=# select * from dishes where id = 1;
         ```
 
   - For Cassandra: `npm run casDataGen`
