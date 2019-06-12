@@ -49,17 +49,37 @@ app.get('/API/restaurant/:id', function (req, res) {
   });
 });
 
-// app.post('/API/restaurant', (req, res) => {
-//   res.sendStatus(201);
-// });
+app.post('/API/restaurant', (req, res) => {
+  db.postResData((err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).send('New restaurant has been posted');
+    }
+  });
+});
 
-// app.put('/API/restaurant/:id', (req, res) => {
-//   res.sendStatus(200);
-// });
+app.put('/API/restaurant/:id', (req, res) => {
+  var q = req.params.id;
+  db.updateResData(q, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(`restaurant #${q} has been updated`);
+    }
+  });
+});
 
-// app.delete('/API/restaurant/:id', (req, res) => {
-//   res.sendStatus(200);
-// });
+app.delete('/API/restaurant/:id', (req, res) => {
+  var q = req.params.id;
+  db.deleteResData(q, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(`restaurant #${q} has been deleted`);
+    }
+  });
+});
 
 
 app.listen(3003, function () {
