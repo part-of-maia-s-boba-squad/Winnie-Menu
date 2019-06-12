@@ -21,7 +21,8 @@ getResData = (q, cb) => pool.query(`select * from dishes inner join restaurants 
   }
 });
 
-const postQuery = `with new_res as (insert into restaurants (id, res_name, top_tags, cuisine, review_count, res_info) values (nextval('res_id_seq'), 'Winnie Boba Shop', 'Casual', 'Drinks', '400', 'Delicious honey boba made fresh daily with high quality tea brewed') returning id) insert into dishes (id, res_id, menu_id, dish_name, dish_info, price, subMenu_type) values (nextval('dishes_id_seq'), (select id from new_res), 1, 'Milk Tea', 'black or green tea with fresh milk', '5.00', 'Snacc')`;
+const postQuery = `with new_res as (insert into restaurants (id, res_name, top_tags, cuisine, review_count, res_info) values (nextval('res_id_seq'), 'Winnie Boba Shop', 'Casual', 'Drinks', '400', 'Delicious honey boba made fresh daily with high quality tea brewed') returning id)
+insert into dishes (id, res_id, menu_id, dish_name, dish_info, price, subMenu_type) values (nextval('dishes_id_seq'), (select id from new_res), 1, 'Milk Tea', 'black or green tea with fresh milk', '5.00', 'Snacc')`;
 
 postResData = (cb) => pool.query(postQuery, (err, result) => {
   if (err) {
