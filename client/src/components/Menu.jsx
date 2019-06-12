@@ -101,81 +101,109 @@ const Button = styled.button`
     padding: 0.5em;
 `
 class Menu extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            listing: this.props.menus.map(i => {
-                return i.name
-            }),
-            subMenu: this.props.menus[0],
-            collapse: true
-        }
-        this.switchMenu = this.switchMenu.bind(this);
-        this.expandMenu = this.expandMenu.bind(this);
-        this.makeButtons = this.makeButtons.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      // listing: this.props.menus.map(i => {
+      //     // return i.name
+      //     console.log(i);
+      // }),
+      listing: this.props.menus,
+      // subMenu: this.props.menus[0],
+      subMenu: this.props.menus.map(res => {
+        return res.submenu_type;
+      }),
+      collapse: true
     }
-    switchMenu(e) {
-        this.setState({
-            subMenu: this.props.menus[e.target.name]
-        })
-    }
-    expandMenu(e) {
-        this.setState({
-            collapse: !this.state.collapse
-        })
-    }
-    makeButtons() {
-        var items = this.state.listing.map((i, idx) => {
-            return (
-                <Button key={idx.toString()} name={idx.toString()} onClick={this.switchMenu}>
-                    {i}
-                </Button>)
-        })
-        return items;
-    }
-    render() {
+    this.switchMenu = this.switchMenu.bind(this);
+    this.expandMenu = this.expandMenu.bind(this);
+    this.makeButtons = this.makeButtons.bind(this);
+    this.getSubMenu = this.getSubMenu.bind(this);
+  }
+  switchMenu(e) {
+    this.setState({
+      subMenu: this.props.menus[e.target.name]
+    })
+  }
+  expandMenu(e) {
+    this.setState({
+      collapse: !this.state.collapse
+    })
+  }
+  getSubMenu() {
+    let arr = [];
+    this.state.listing.map((res) => {
+      if (!arr.includes(res.submenu_type)) {
+        arr.push(res.submenu_type);
+      }
+    });
+    this.setState({
+      subMenu: arr
+    });
+  }
+  makeButtons() {
+    var items = this.state.listing.map((i, idx) => {
+      if (!i.submenu_type) {
         return (
-            <Container>
-                <Wrapper>Menu</Wrapper>
-                <SubMenuButton>
-                    {this.makeButtons()}
-                </SubMenuButton>
-                <SubMenuWrapper>
-                    <SubMenu subMenu={this.state.subMenu} collapse={this.state.collapse} expand={this.expandMenu} />
-                </SubMenuWrapper>
-            </Container>
-        );
-    }
+          <Button key={idx.toString()} name={idx.toString()} onClick={this.switchMenu}>
+            {i.subMenu_type}
+          </Button>)
+      }
+    })
+    return items;
+  }
+  render() {
+    console.log(this.state.subMenu);
+    return (
+      <Container>
+        <Wrapper>Menu</Wrapper>
+        <SubMenuButton>
+          {this.makeButtons()}
+        </SubMenuButton>
+        <SubMenuWrapper>
+          <SubMenu subMenu={this.state.subMenu} collapse={this.state.collapse} expand={this.expandMenu} />
+        </SubMenuWrapper>
+      </Container>
+    );
+  }
 }
 
 var SubMenu = ({ subMenu, collapse, expand }) => {
-    subMenu.menus = subMenu.menus.slice(0, 6);
-    var longMenu = subMenu.menus.map((i, idx) => {
-        return (
-            <SubSubMenu key={idx.toString()} subsubMenu={i}>
-            </SubSubMenu>
-        )
-    })
-    if (!collapse) {
-        return (
-            <LongMenuBox>
-                {longMenu}
-                <Float>
-                    <div href="#" className="menuButton" onClick={expand}>Collapse</div>
-                </Float>
-            </LongMenuBox>)
-    } else {
-        return (
-            <MenuBox>
-                <SubSubMenu subsubMenu={subMenu.menus[0]}></SubSubMenu>
-                <div className="Readmore">
-                </div>
-                <Float>
-                    <div href="#" className="menuButton" onClick={expand}>Expand</div>
-                </Float>
-            </MenuBox>
-        )
+  let cleanSubMenu = [];
+  for (let i = 0; i < subMenu.length; i++) {
+    if (!cleanSubMenu.includes(subMenu[i])) {
+      cleanSubMenu.push(subMenu[i]);
     }
+  }
+  console.log('cleanCopy: ', cleanSubMenu);
+  subMenu.menus = subMenu.menus.slice(0, 6);
+  
+  var longMenu = subMenu.menus.map((i, idx) => {
+    return (
+      <SubSubMenu key={idx.toString()} subsubMenu={i}>
+      </SubSubMenu>
+    )
+  })
+  if (!collapse) {
+    return (
+      <LongMenuBox>
+        {longMenu}
+        <Float>
+          <div href="#" className="menuButton" onClick={expand}>Collapse</div>
+        </Float>
+      </LongMenuBox>)
+  } else {
+    return (
+      <MenuBox>
+        <SubSubMenu subsubMenu={subMenu.menus[0]}></SubSubMenu>
+        <div className="Readmore">
+        </div>
+        <Float>
+          <div href="#" className="menuButton" onClick={expand}>Expand</div>
+        </Float>
+      </MenuBox>
+    )
+  }
 }
 
 export default Menu;

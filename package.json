@@ -10,7 +10,7 @@
   "scripts": {
     "react-dev": "webpack -d --watch",
     "test": "jest",
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js",
     "seed": "node server/dataGenerator/save2mongoose.js",
     "psqlDataGen": "node server/db/psqlDataGen.js —-max-old-space-size=8192",
     "casDataGen": "node server/db/casDataGen.js —-max-old-space-size=8192"
@@ -31,6 +31,8 @@
     "node-zip": "^1.1.1",
     "nodemon": "^1.19.0",
     "path": "^0.12.7",
+    "pg": "^7.11.0",
+    "pg-promise": "^8.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",

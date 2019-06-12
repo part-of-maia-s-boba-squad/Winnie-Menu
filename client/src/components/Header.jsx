@@ -88,27 +88,29 @@ var Header = ({ res }) => {
     case 4: pricelevel_verbal = 'Over $100'
   }
   var item = <div></div>;
-  if (res.topTags !== undefined) {
-    item = res.topTags.map((i, idx) => (
-      <H.Button key={idx.toString()}>{i}</H.Button>
-    ))
+
+  if (res[0].top_tags !== undefined) {
+    // item = res.topTags.map((i, idx) => (
+    //   <H.Button key={idx.toString()}>{i}</H.Button>
+    // ))
+    item = <H.Button key={res[0].top_tags}>{res[0].top_tags}</H.Button>
   }
   return (
     <Container>
       <Wrapper>
-        <H.Title>{res.name}</H.Title>
+        <H.Title>{res[0].res_name}</H.Title>
       </Wrapper>
       <Block>
         <StarSymbol stars={res.star}> {res.star} </StarSymbol><BlockText> </BlockText>
-        <BlockItem> <H.ReviewIcon /></BlockItem> <BlockText>{res.reviewCount} reviews </BlockText>
+        <BlockItem> <H.ReviewIcon /></BlockItem> <BlockText>{res[0].review_count} reviews </BlockText>
         <BlockItem>{price_icon}</BlockItem> <BlockText>{pricelevel_verbal}</BlockText>
-        <BlockItem>{cuisine_icon}</BlockItem> <BlockText>{res.cuisine}</BlockText>
+        <BlockItem>{cuisine_icon}</BlockItem> <BlockText>{res[0].cuisine}</BlockText>
       </Block>
       <H.Tag>
         Top Tags: {item}
       </H.Tag>
       <H.Des>
-        <Description description={res.description} />
+        <Description description={res[0].res_info} />
       </H.Des>
     </Container>
   );

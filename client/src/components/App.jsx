@@ -21,7 +21,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             q: window.location.pathname.split('/restaurant/')[1],
-            res: {}
+            res: []
         }
     }
 
@@ -31,8 +31,7 @@ class App extends React.Component {
             method: 'GET',
             url: '/API/restaurant/' + this.state.q,
             success: (data) => {
-                data = JSON.parse(data);
-                console.log('response data', data);
+                // data = JSON.parse(data);
                 this.setState({
                     res: data
                 })
@@ -56,7 +55,8 @@ class App extends React.Component {
                 <div>
                     <GlobalStyles>
                         <Header res={this.state.res} />
-                        <Menu menus={this.state.res.menus} />
+                        {/* <Menu menus={this.state.res.menus} /> */}
+                        <Menu menus={this.state.res} />
                     </GlobalStyles>
                     {/* <Sidebar res={this.state.res} /> */}
                 </div>
