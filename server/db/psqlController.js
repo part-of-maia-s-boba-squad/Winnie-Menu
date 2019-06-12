@@ -21,7 +21,9 @@ getResData = (q, cb) => pool.query(`select * from dishes inner join restaurants 
   }
 });
 
-postResData = (cb) => pool.query("insert into restaurants (id, res_name, top_tags, cuisine, review_count, res_info) values (nextval('res_id_seq'), 'Kicking Crab', 'Casual', 'Cajun', '347', 'gdfgfdfgggfdegre hergregergregre erwhewhehew eewhtwhewk gfehjkerhgkj')", (err, result) => {
+const postQuery = `with new_res as (insert into restaurants (id, res_name, top_tags, cuisine, review_count, res_info) values (nextval('res_id_seq'), 'Winnie Boba Shop', 'Casual', 'Drinks', '400', 'Delicious honey boba made fresh daily with high quality tea brewed') returning id) insert into dishes (id, res_id, menu_id, dish_name, dish_info, price, subMenu_type) values (nextval('dishes_id_seq'), (select id from new_res), 1, 'Milk Tea', 'black or green tea with fresh milk', '5.00', 'Snacc')`;
+
+postResData = (cb) => pool.query(postQuery, (err, result) => {
   if (err) {
     cb(err);
   } else {
@@ -29,7 +31,7 @@ postResData = (cb) => pool.query("insert into restaurants (id, res_name, top_tag
   }
 });
 
-updateResData = (q, cb) => pool.query(`update restaurants set res_name = 'Kinjo', cuisine = 'Japanese' where id = ${q}`, (err, result) => {
+updateResData = (q, cb) => pool.query(`update restaurants set res_name = 'Boba Guys', cuisine = 'Drinks' where id = ${q}`, (err, result) => {
   if (err) {
     cb(err);
   } else {
@@ -37,15 +39,15 @@ updateResData = (q, cb) => pool.query(`update restaurants set res_name = 'Kinjo'
   }
 });
 
-deleteResData = (q, cb) => pool.query(`delete from restaurants where id = ${q}`, (err, result) => {
-  if (err) {
-    cb(err);
-  } else {
-    cb(null, result);
-  }
-});
-
-// delete dishes, restaurants from dishes inner join restaurants on dishes.res_id = restaurants.id where restaurants.id = 10000006;
+deleteResData = (q, cb) => pool.query(`with delete_res as (
+  delete from restaurants where id = ${q} returning id)
+  delete from dishes where res_id = (select id from delete_res)`, (err, result) => {
+    if (err) {
+      cb(err);
+    } else {
+      cb(null, result);
+    }
+  });
 
 module.exports = {
   getResData,
