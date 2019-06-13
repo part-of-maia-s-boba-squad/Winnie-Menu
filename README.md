@@ -67,6 +67,7 @@ Seeding Database:
 
         -If Sequence already exists but is off...
         ALTER SEQUENCE START and RESTART to match max
+        ALTER SEQUENCE res_id_seq RESTART WITH 10000001;
         ```
     6. Check tables if seeded successfully:
 

@@ -4,9 +4,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var app = express();
-var React = require('react');
+// var React = require('react');
 // var Application = require('../client/src/components/App.jsx');
-var reactServer = require('react-dom/server');
+// var reactServer = require('react-dom/server');
 var cors = require('cors');
 
 // var db = require('./db/mongo.js');
@@ -42,7 +42,6 @@ app.get('/restaurant/:id', function (req, res) {
 
 app.get('/API/restaurant/:id', function (req, res) {
   var q = req.params.id;
-  console.log('query ID', q)
   db.getResData(q, (err, result) => {
     if (err) {
       res.sendStatus(500);

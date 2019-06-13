@@ -37,3 +37,4 @@ server/db/cqlshQueries
 server/db/psqlQueries
 
 newrelic.js
+newrelic_agent.log
