@@ -5,7 +5,7 @@ const random = (min, max) => {
 };
 
 const postResMenu = (userContext, events, done) => {
-  const newId = random(300000000, 400000000);
+  const newId = random(30000000, 40000000);
   const res_name = Faker.company.companyName();
   const top_tags = Faker.lorem.word();
   const cuisine = Faker.lorem.word();

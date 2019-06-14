@@ -41,6 +41,20 @@ postResData = (cb) => {
   });
 };
 
+// postResData = (cb) => {
+//   const values = ['Winnie Boba Shop', 'Casual', 'Drinks', '400', 'Delicious honey boba made fresh daily with high quality tea brewed'];
+
+//   const postQuery = `insert into restaurants (id, res_name, top_tags, cuisine, review_count, res_info) values (nextval('res_id_seq'), $1, $2, $3, $4, $5))`;
+
+//   pool.query(postQuery, values, (err, result) => {
+//     if (err) {
+//       cb(err);
+//     } else {
+//       cb(null, result);
+//     }
+//   });
+// };
+
 updateResData = (q, cb) => {
   const values = ['Boba Guys', 'Drinks', q];
   const text = 'update restaurants set res_name = $1, cuisine = $2 where id = $3';

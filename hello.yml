@@ -10,7 +10,7 @@ scenarios:
     - loop:
       - get:
           url: "/API/restaurant/{{ $randomNumber(1, 10000000) }}"
-      count: 20
+      count: 50
   - weight: 1/1000
     flow:
     - loop:
