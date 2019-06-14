@@ -41,6 +41,7 @@ app.get('/restaurant/:id', function (req, res) {
 // });
 
 app.get('/API/restaurant/:id', function (req, res) {
+  // var q = Number(req.params.id);
   var q = req.params.id;
   db.getResData(q, (err, result) => {
     if (err) {

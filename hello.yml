@@ -1,9 +1,33 @@
 config:
-  target: 'http://localhost:3003/restaurant'
+  target: 'http://localhost:3003'
   phases:
-    - duration: 60
-      arrivalRate: 100
+    - duration: 30
+      arrivalRate: 150
+  processor: './resMenuPost.js'
 scenarios:
-  - flow:
-    - get:
-        url: "/{{ $randomNumber(1, 10000000) }}"
+  - weight: 99/1000
+    flow:
+    - loop:
+      - get:
+          url: "/API/restaurant/{{ $randomNumber(1, 10000000) }}"
+      count: 20
+  - weight: 1/1000
+    flow:
+    - loop:
+      - function: "postResMenu"
+      - post:
+          url: "/API/restaurant"
+          json:
+            id: "{{ newId }}"
+            res_name: "{{ res_name }}"
+            top_tags: "{{ top_tags }}"
+            cuisine: "{{ cuisine }}"
+            review_count: "{{ review_count }}"
+            res_info: "{{ res_info }}"
+            res_id: "{{ newId }}"
+            menu_id: "{{ menu_id }}"
+            dish_name: "{{ dish_name }}"
+            dish_info: "{{ dish_info }}"
+            price: "{{ price }}"
+            subMenu_type: "{{ subMenu_type }}"
+      count: 1
