@@ -38,3 +38,7 @@ server/db/psqlQueries
 
 newrelic.js
 newrelic_agent.log
+resMenu-psql.pem
+.bashrc
+psql-resDishes.pem
+data/

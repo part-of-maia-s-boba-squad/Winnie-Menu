@@ -11,7 +11,7 @@ const resNameArr = [];
 const resInfoArr = [];
 for (let i = 0; i < 1000; i++) {
   resNameArr.push(faker.company.companyName());
-  resInfoArr.push(faker.lorem.paragraphs());
+  resInfoArr.push(faker.lorem.sentence());
 }
 
 const resData = async (limit) => {
@@ -23,7 +23,7 @@ const resData = async (limit) => {
   writer.pipe(fs.createWriteStream('psqlResData.csv'));
 
   // const writer = fs.createWriteStream('psqlResData.csv');
-  writer.write('id,res_name,top_tags,cuisine,review_count,res_info\n');
+  // writer.write('id,res_name,top_tags,cuisine,review_count,res_info\n');
   for (let i = 1; i <= limit; i++) {
     const ableToWrite = writer.write({
       id: i,
@@ -101,7 +101,7 @@ const subMenu = ['Appetizers', 'Lunch', 'Dinner', 'Brunch', 'Dessert', 'Drinks',
 const dishesData = async (limit) => {
   const writer = csvWriter();
   let count = 1;
-  writer.pipe(fs.createWriteStream('psqlDishesData.csv'));
+  writer.pipe(fs.createWriteStream('psqlDishesData9.csv'));
 
   for (let i = 1; i <= limit; i++) {
     for (let menuCount = 1; menuCount <= random(1, 4); menuCount++) {
@@ -128,6 +128,6 @@ const dishesData = async (limit) => {
   writer.end();
 }
 
-resData(10000000);
-menuData();
+// resData(10000000);
+// menuData();
 dishesData(10000000);

@@ -2,16 +2,22 @@ config:
   target: 'http://localhost:3003'
   phases:
     - duration: 30
-      arrivalRate: 150
+      arrivalRate: 500
   processor: './resMenuPost.js'
 scenarios:
-  - weight: 99/1000
+  - weight: 80/100
+    flow:
+    - loop:
+      - get:
+          url: "/API/restaurant/{{ $randomNumber(1, 100000) }}"
+      count: 10
+  - weight: 19/100
     flow:
     - loop:
       - get:
           url: "/API/restaurant/{{ $randomNumber(1, 10000000) }}"
-      count: 50
-  - weight: 1/1000
+      count: 10
+  - weight: 1/100
     flow:
     - loop:
       - function: "postResMenu"

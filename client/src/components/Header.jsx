@@ -98,6 +98,7 @@ var Header = ({ res }) => {
   return (
     <Container>
       <Wrapper>
+        <H.Title>Restaurant Title</H.Title>
         <H.Title>{res[0].res_name}</H.Title>
       </Wrapper>
       <Block>
@@ -106,10 +107,12 @@ var Header = ({ res }) => {
         <BlockItem>{price_icon}</BlockItem> <BlockText>{pricelevel_verbal}</BlockText>
         <BlockItem>{cuisine_icon}</BlockItem> <BlockText>{res[0].cuisine}</BlockText>
       </Block>
+      <H.Tag>Top Tags</H.Tag>
       <H.Tag>
         Top Tags: {item}
       </H.Tag>
       <H.Des>
+        <Description>Description</Description>
         <Description description={res[0].res_info} />
       </H.Des>
     </Container>

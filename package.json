@@ -37,6 +37,7 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-test-renderer": "^16.8.6",
+    "redis": "^2.8.0",
     "request": "^2.88.0",
     "styled-components": "^4.2.0",
     "yarn": "^1.16.0"

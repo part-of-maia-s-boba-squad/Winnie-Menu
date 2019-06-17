@@ -8,6 +8,8 @@ var app = express();
 // var Application = require('../client/src/components/App.jsx');
 // var reactServer = require('react-dom/server');
 var cors = require('cors');
+const redis = require('redis');
+const client = redis.createClient();
 
 // var db = require('./db/mongo.js');
 var db = require('./db/psqlController.js');
@@ -40,16 +42,36 @@ app.get('/restaurant/:id', function (req, res) {
 
 // });
 
-app.get('/API/restaurant/:id', function (req, res) {
-  // var q = Number(req.params.id);
-  var q = req.params.id;
-  db.getResData(q, (err, result) => {
-    if (err) {
-      res.sendStatus(500);
+// app.get('/API/restaurant/:id', function (req, res) {
+//   // var q = Number(req.params.id);
+//   var q = req.params.id;
+//   db.getResData(q, (err, result) => {
+//     if (err) {
+//       res.sendStatus(500);
+//     }
+//     res.status(200).send(result);
+//   });
+// });
+
+const getCache = (req, res) => {
+  let q = req.params.id;
+
+  client.get(q, (err, result) => {
+    if (result) {
+      res.send(JSON.parse(result));
+    } else {
+      db.getResData(q, (err, result) => {
+        if (err) {
+          res.sendStatus(500);
+        }
+        res.status(200).send(result);
+        client.setex(q, 3600, JSON.stringify(result));
+      });
     }
-    res.status(200).send(result);
   });
-});
+}
+
+app.get('/API/restaurant/:id', getCache);
 
 app.post('/API/restaurant', (req, res) => {
   db.postResData((err, result) => {
